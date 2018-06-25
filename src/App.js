@@ -1,18 +1,33 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import SplitPane from 'react-split-pane';
+import Editor from './editor.js';
+import ReactMarkdown from 'react-markdown';
 
 class App extends Component {
+  constructor(props) {
+    super();
+    this.state = {
+      markdownSrc: "# Hello World",
+    }
+    this.onMarkdownChange = this.onMarkdownChange.bind(this);
+  }
+  onMarkdownChange(md) {
+    this.setState({
+      markdownSrc: md
+    });
+  }
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <SplitPane split="vertical" defaultSize="50%">
+          <div className="editor-pane">
+            <Editor className="editor" value={this.state.markdownSrc} onChange={this.onMarkdownChange}/>
+          </div>
+          <div className="view-pane">
+            <ReactMarkdown className="result" source={this.state.markdownSrc} />
+          </div>
+        </SplitPane>
       </div>
     );
   }

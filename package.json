@@ -2,13 +2,16 @@
   "name": "ajinote",
   "version": "0.1.0",
   "private": true,
-  "main":"public/main.js",
-  "homepage":"./",
+  "main": "public/main.js",
+  "homepage": "./",
   "dependencies": {
+    "@skidding/react-codemirror": "^1.0.2",
     "electron-is-dev": "^0.3.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "react-scripts": "1.1.4"
+    "react-markdown": "^3.3.4",
+    "react-scripts": "1.1.4",
+    "react-split-pane": "^0.1.77"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -18,7 +21,7 @@
     "electron-dev": "concurrently \"BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\"",
     "preelectron-pack": "npm run build",
     "electron-pack": "electron-builder -c.extraMetadata.main=build/main.js"
-  }, 
+  },
   "devDependencies": {
     "concurrently": "^3.5.1",
     "electron": "^2.0.2",
