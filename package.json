@@ -5,6 +5,8 @@
   "main": "public/main.js",
   "homepage": "./",
   "dependencies": {
+    "@material-ui/core": "^1.4.0",
+    "@material-ui/icons": "^1.1.0",
     "babel-polyfill": "^6.26.0",
     "draft-js": "^0.10.5",
     "draft-js-markdown-plugin": "^3.0.0",
