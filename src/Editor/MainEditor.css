@@ -1,3 +1,5 @@
 .MainEditor{
   background-color: darkolivegreen;
+  height:100%;
+  flex:8
 }
