@@ -38,8 +38,8 @@ class TreeNode extends Component{
                             <ListItemText primary={data.value} />
                             {this.state.open ? <ExpandLess /> : <ExpandMore />}
                     </ListItem>
-                    <Collapse className="collapse" in={this.state.open} timeout="auto" unmountOnExit>
-                        <List component="div">
+                    <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding>
                             {childNodes}
                         </List>
                     </Collapse>
