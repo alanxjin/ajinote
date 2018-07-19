@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './TreeNode.css';
 import PropTypes from 'prop-types';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -37,7 +38,7 @@ class TreeNode extends Component{
                             <ListItemText primary={data.value} />
                             {this.state.open ? <ExpandLess /> : <ExpandMore />}
                     </ListItem>
-                    <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+                    <Collapse className="collapse" in={this.state.open} timeout="auto" unmountOnExit>
                         <List component="div">
                             {childNodes}
                         </List>
