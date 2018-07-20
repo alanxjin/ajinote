@@ -1,6 +1,6 @@
 .MainEditor{
-  background-color: darkseagreen;
-  color:floralwhite;
-  height: 100%;
+  background-color: aliceblue;
+  padding:10px;
+  height: 600px;
   flex:4;
 }
