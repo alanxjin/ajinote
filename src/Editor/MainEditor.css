@@ -1,5 +1,6 @@
 .MainEditor{
-  background-color: darkolivegreen;
-  height:100%;
-  flex:8
+  background-color: darkseagreen;
+  color:floralwhite;
+  height: 100%;
+  flex:4;
 }

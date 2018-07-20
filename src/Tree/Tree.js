@@ -37,7 +37,7 @@ class Tree extends Component{
         return(
             <div className="Tree">
                 <List component="div" disablePadding>
-                    <TreeNode data={tree}></TreeNode>
+                    <TreeNode data={tree} padding={20}></TreeNode>
                 </List>
             </div>
         )

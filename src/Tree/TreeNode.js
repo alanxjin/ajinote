@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './TreeNode.css';
 import PropTypes from 'prop-types';
+
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -13,6 +14,8 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 
 
 
+
+
 class TreeNode extends Component{
     constructor(props) {
         super(props);
@@ -22,16 +25,18 @@ class TreeNode extends Component{
         this.setState(state => ({ open: !state.open }));
     };
     render(){
-        const {data} = this.props;
+        const { classes, data} = this.props;
+        let {padding} = this.props;
         let childNodes = [];
         let hasChild = data.nodes != null && data.nodes.length > 0;
         for(let i in data.nodes){
-            childNodes.push(<TreeNode data={data.nodes[i]}></TreeNode>);
+            childNodes.push(<TreeNode key={data.nodes[i].value} data={data.nodes[i]} padding={padding+20}></TreeNode>);
+           
         }
         if(hasChild){
             return(
                 <div>
-                    <ListItem button onClick={this.handleClick}>
+                    <ListItem button onClick={this.handleClick} style={{paddingLeft:`${padding}px`}}>
                             <ListItemIcon>
                                 <DraftsIcon />
                             </ListItemIcon>
@@ -47,7 +52,7 @@ class TreeNode extends Component{
             )
         }
         return (
-            <ListItem button onClick={this.handleClick}>
+            <ListItem button onClick={this.handleClick} style={{paddingLeft:`${padding}px`}}>
                 <ListItemIcon>
                     <InboxIcon />
                 </ListItemIcon>
@@ -58,7 +63,7 @@ class TreeNode extends Component{
 }
 
 TreeNode.propTypes = {
-    data: PropTypes.array.isRequired,
+    data: PropTypes.object.isRequired,
 };
   
 
