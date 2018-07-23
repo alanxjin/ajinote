@@ -11,7 +11,7 @@ class App extends Component {
         indexOfSelected: 0
     }
   }
-  componentDidMount(){
+  componentWillMount(){
     this.loadData();
   }
   
@@ -20,19 +20,18 @@ class App extends Component {
     const content = window.localStorage.getItem('content');
     console.log(content);
     this.setState({
-      contentStates:this.state.contentStates.push(content)
+      contentStates:[...this.state.contentStates, content]
     })
   }
   
   render() {
-    const {contentStates, indexOfSelected} = this.state;
     console.log("===App rendering===");
-    console.log(contentStates);
+    const {contentStates, indexOfSelected} = this.state;
     let selectedState = contentStates[indexOfSelected] || null;
     return (
       <div className="App">
         <SideBar/>
-        <MainEditor editorState={selectedState}/>
+        <MainEditor editorStateRaw={selectedState}/>
       </div>
     );
   }

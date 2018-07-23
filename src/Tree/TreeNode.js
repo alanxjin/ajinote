@@ -13,8 +13,6 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 
 
 
-
-
 class TreeNode extends Component{
     constructor(props) {
         super(props);
@@ -24,7 +22,7 @@ class TreeNode extends Component{
         this.setState(state => ({ open: !state.open }));
     };
     render(){
-        const { classes, data} = this.props;
+        const {data} = this.props;
         let {padding} = this.props;
         let childNodes = [];
         let hasChild = data.nodes != null && data.nodes.length > 0;
