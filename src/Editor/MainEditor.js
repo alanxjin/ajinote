@@ -10,20 +10,29 @@ const plugins = [createMarkdownPlugin(),createMathjaxPlugin()];
 class MainEditor extends Component {
   constructor(props) {
     super(props);
-    this.state = {editorState:this._createEditorStateFromRaw(props.editorStateRaw)};
+    this.state = {editorState:this._createEditorStateWithContent(this._convertFromSaveData(props.editorStateSaveData))};
   }
   
-  _createEditorStateFromRaw = (editorStateRaw) => {
-    if(editorStateRaw){
-      return EditorState.createWithContent(convertFromRaw(JSON.parse(editorStateRaw)));
+  _createEditorStateWithContent = (content) => {
+    if(content){
+      return EditorState.createWithContent(content);
     }else{
       return EditorState.createEmpty();
     }
   }
 
+  _convertFromSaveData = (data) => {
+    return convertFromRaw(JSON.parse(data));
+  }
+
+  _convertToSaveData = (data) => {
+    return JSON.stringify(convertToRaw(data));
+  }
+
+
   componentWillReceiveProps(nextProps){
-    let {editorStateRaw} = nextProps;
-    this.setState({editorState:this._createEditorStateFromRaw(editorStateRaw)});
+    let {editorStateSaveData} = nextProps;
+    this.setState({editorState:this._createEditorStateWithContent(this._convertFromSaveData(editorStateSaveData))});
   }
 
   onChange = (editorState) =>{
@@ -34,7 +43,7 @@ class MainEditor extends Component {
 
   saveContent = (content) => {
     console.log("===Save Data===");
-    window.localStorage.setItem('content', JSON.stringify(convertToRaw(content)));
+    window.localStorage.setItem('content', this._convertToSaveData(content));
   }
 
   render() {

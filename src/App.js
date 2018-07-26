@@ -2,6 +2,7 @@ import './App.css';
 import React, { Component } from 'react';
 import MainEditor from './Editor/MainEditor';
 import SideBar from './SideBar/SideBar';
+import Store from './utility/Store';
 
 class App extends Component {
   constructor(props) {
@@ -10,6 +11,10 @@ class App extends Component {
         contentStates:[],
         indexOfSelected: 0
     }
+    this.fileStore = new Store({
+      configName: 'files',
+      default:{}
+    })
   }
   componentWillMount(){
     this.loadData();
@@ -31,7 +36,7 @@ class App extends Component {
     return (
       <div className="App">
         <SideBar/>
-        <MainEditor editorStateRaw={selectedState}/>
+        <MainEditor store={this.store} editorStateSaveData={selectedState}/>
       </div>
     );
   }
