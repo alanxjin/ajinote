@@ -10,9 +10,18 @@ const plugins = [createMarkdownPlugin(),createMathjaxPlugin()];
 class MainEditor extends Component {
   constructor(props) {
     super(props);
-    this.state = {editorState:this._createEditorStateWithContent(this._convertFromSaveData(props.editorStateSaveData))};
+    this.state = {editorState:EditorState.createEmpty()};
   }
   
+  componentDidMount(){
+    const {store, selectedDocId} = this.props;
+    const docs = store.get("docs");
+    const editorState = this._createEditorStateWithContent(this._convertFromSaveData(docs[selectedDocId]));
+    this.setState({
+      editorState: editorState
+    })
+  }
+
   _createEditorStateWithContent = (content) => {
     if(content){
       return EditorState.createWithContent(content);

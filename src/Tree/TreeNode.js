@@ -27,7 +27,7 @@ class TreeNode extends Component{
         let childNodes = [];
         let hasChild = data.nodes != null && data.nodes.length > 0;
         for(let i in data.nodes){
-            childNodes.push(<TreeNode key={data.nodes[i].value} data={data.nodes[i]} padding={padding+20}></TreeNode>);
+            childNodes.push(<TreeNode key={data.nodes[i].name} data={data.nodes[i]} padding={padding+20}></TreeNode>);
            
         }
         if(hasChild){
@@ -37,7 +37,7 @@ class TreeNode extends Component{
                             <ListItemIcon>
                                 <DraftsIcon />
                             </ListItemIcon>
-                            <ListItemText primary={data.value} />
+                            <ListItemText primary={data.name} />
                             {this.state.open ? <ExpandLess /> : <ExpandMore />}
                     </ListItem>
                     <Collapse in={this.state.open} timeout="auto" unmountOnExit>
@@ -53,7 +53,7 @@ class TreeNode extends Component{
                 <ListItemIcon>
                     <InboxIcon />
                 </ListItemIcon>
-                <ListItemText primary={data.value} />
+                <ListItemText primary={data.name} />
             </ListItem> 
         )
     }

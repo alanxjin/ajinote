@@ -4,39 +4,33 @@ import MainEditor from './Editor/MainEditor';
 import SideBar from './SideBar/SideBar';
 import Store from './utility/Store';
 
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        contentStates:[],
-        indexOfSelected: 0
+        indexOfSelected: 0,
+        selectedDocId: "3"
     }
-    this.fileStore = new Store({
-      configName: 'files',
-      default:{}
+    this.store = new Store({
+      name:'ajinStore',
+      defaults:{'config':{}, 'doc':{}, 'index':{}}
     })
   }
   componentWillMount(){
     this.loadData();
   }
-  
+   
   loadData(){
-    console.log("===Data loaded===");
-    const content = window.localStorage.getItem('content');
-    console.log(content);
-    this.setState({
-      contentStates:[...this.state.contentStates, content]
-    })
   }
   
   render() {
     console.log("===App rendering===");
-    const {contentStates, indexOfSelected} = this.state;
-    let selectedState = contentStates[indexOfSelected] || null;
+    const {selectedDocId} = this.state;
     return (
       <div className="App">
-        <SideBar/>
-        <MainEditor store={this.store} editorStateSaveData={selectedState}/>
+        <SideBar store={this.store}/>
+        <MainEditor store={this.store} selectedDocId={selectedDocId}/>
       </div>
     );
   }

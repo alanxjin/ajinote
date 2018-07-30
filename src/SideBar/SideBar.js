@@ -8,7 +8,7 @@ class SideBar extends Component {
     
     return (
       <div className="SideBar">
-        <Tree></Tree>
+        <Tree {...this.props}></Tree>
       </div>
     );
   }
