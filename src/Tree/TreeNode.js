@@ -21,7 +21,7 @@ class TreeNode extends Component{
     handleClick = () => {
         const {data, selectedDocIdOnChange, selectedNodeIdOnChange} = this.props;
         this.setState(state => ({ open: !state.open }));
-        if(data.type == "file") selectedDocIdOnChange(data.docId);
+        if(data.type == "file") selectedDocIdOnChange(data.id);
         selectedNodeIdOnChange(data.id);
     };
     render(){
