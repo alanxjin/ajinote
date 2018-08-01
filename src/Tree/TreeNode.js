@@ -19,21 +19,28 @@ class TreeNode extends Component{
         this.state = { open: true };
     }
     handleClick = () => {
+        const {data, selectedDocIdOnChange, selectedNodeIdOnChange} = this.props;
         this.setState(state => ({ open: !state.open }));
+        if(data.type == "file") selectedDocIdOnChange(data.docId);
+        selectedNodeIdOnChange(data.id);
     };
     render(){
-        const {data} = this.props;
+        const {data,selectedDocIdOnChange,selectedNodeIdOnChange, selectedNodeId} = this.props;
         let {padding} = this.props;
         let childNodes = [];
         let hasChild = data.nodes != null && data.nodes.length > 0;
+        let isSelected = selectedNodeId == data.id;
+        let style = {paddingLeft:`${padding}px`};
+        if(isSelected){
+            style["backgroundColor"] = "gray";
+        }
         for(let i in data.nodes){
-            childNodes.push(<TreeNode key={data.nodes[i].name} data={data.nodes[i]} padding={padding+20}></TreeNode>);
-           
+            childNodes.push(<TreeNode key={data.nodes[i].id} data={data.nodes[i]} selectedNodeId={selectedNodeId} padding={padding+20} selectedDocIdOnChange={selectedDocIdOnChange} selectedNodeIdOnChange={selectedNodeIdOnChange}></TreeNode>);
         }
         if(hasChild){
             return(
                 <div>
-                    <ListItem button onClick={this.handleClick} style={{paddingLeft:`${padding}px`}}>
+                    <ListItem button onClick={this.handleClick} style={style}>
                             <ListItemIcon>
                                 <DraftsIcon />
                             </ListItemIcon>
@@ -49,7 +56,7 @@ class TreeNode extends Component{
             )
         }
         return (
-            <ListItem button onClick={this.handleClick} style={{paddingLeft:`${padding}px`}}>
+            <ListItem button onClick={this.handleClick} style={style}>
                 <ListItemIcon>
                     <InboxIcon />
                 </ListItemIcon>

@@ -10,7 +10,8 @@ class App extends Component {
     super(props);
     this.state = {
         indexOfSelected: 0,
-        selectedDocId: "3"
+        selectedDocId: "",
+        selectedNodeId: ""
     }
     this.store = new Store({
       name:'ajinStore',
@@ -20,17 +21,29 @@ class App extends Component {
   componentWillMount(){
     this.loadData();
   }
-   
+
   loadData(){
+  }
+ 
+  selectedDocIdOnChange = (id) =>{
+    this.setState({
+      selectedDocId:id
+    })
+  }
+
+  selectedNodeIdOnChange = (id) =>{
+    this.setState({
+      selectedNodeId:id
+    })
   }
   
   render() {
     console.log("===App rendering===");
-    const {selectedDocId} = this.state;
+    const {selectedDocId, selectedNodeId} = this.state;
     return (
       <div className="App">
-        <SideBar store={this.store}/>
-        <MainEditor store={this.store} selectedDocId={selectedDocId}/>
+        <SideBar store={this.store} selectedNodeId={selectedNodeId} selectedDocIdOnChange={this.selectedDocIdOnChange} selectedNodeIdOnChange={this.selectedNodeIdOnChange}/>
+        <MainEditor store={this.store} selectedNodeId={selectedNodeId} selectedDocId={selectedDocId} selectedNodeIdOnChange={this.selectedNodeIdOnChange}/>
       </div>
     );
   }

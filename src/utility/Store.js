@@ -11,7 +11,6 @@ const fs = electron.remote.require('fs');
 
 class Store {
   constructor(opts) {
-    //const storageFolderName = "ajinDataStorage";
     const userDataPath = (electron.app || electron.remote.app).getPath('userData');
     this.path = path.join(userDataPath, opts.name + '.json');
     this.data = parseDataFile(this.path, opts.defaults);

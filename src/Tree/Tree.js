@@ -10,11 +10,11 @@ class Tree extends Component{
     }
    
     render(){
-      const {store} = this.props;
+      const {store,selectedDocIdOnChange, selectedNodeIdOnChange, selectedNodeId} = this.props;
         return(
             <div className="Tree">
                 <List component="div" disablePadding>
-                    <TreeNode data={store.get("indice")} padding={20}></TreeNode>
+                    <TreeNode data={store.get("indice")} padding={20} selectedNodeId={selectedNodeId} selectedDocIdOnChange={selectedDocIdOnChange} selectedNodeIdOnChange={selectedNodeIdOnChange}></TreeNode>
                 </List>
             </div>
         )

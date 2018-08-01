@@ -13,7 +13,7 @@ class MainEditor extends Component {
     this.state = {editorState:EditorState.createEmpty()};
   }
 
-  componentDidMount(){
+  componentWillMount(){
     this.updateEditorState(this.props);
   }
 
@@ -24,30 +24,35 @@ class MainEditor extends Component {
   updateEditorState = (props)=>{
     const {store, selectedDocId} = props;
     const docs = store.get("docs");
-    const editorState = this.createEditorState(docs[selectedDocId]);
+    let editorState;
+    if(selectedDocId != ""){
+      const content = convertFromRaw(JSON.parse(docs[selectedDocId]));
+      editorState = EditorState.createWithContent(content);
+    }else{
+      editorState = EditorState.createEmpty();
+    }
     this.setState({
       editorState: editorState
     })
   }
 
-  createEditorState = (data) => {
-    const content = convertFromRaw(JSON.parse(data));
-    if(content){
-      return EditorState.createWithContent(content);
-    }else{
-      return EditorState.createEmpty();
-    }
-  }
 
   onChange = (editorState) =>{
     console.log("===Editor Content Changed===");
+    const {selectedDocId, selectedNodeId,selectedNodeIdOnChange} = this.props;
     this.setState({editorState});
     this.saveContent(editorState.getCurrentContent());
+    if(selectedDocId != selectedNodeId){
+      selectedNodeIdOnChange(selectedDocId);
+    }
   }
 
   saveContent = (content) => {
     console.log("===Save Data===");
-    window.localStorage.setItem('content', JSON.stringify(convertToRaw(content)));
+    const {store, selectedDocId} = this.props;
+    let docs = store.get("docs");
+    docs[selectedDocId] = JSON.stringify(convertToRaw(content));
+    store.set("docs", docs);
   }
 
   render() {
