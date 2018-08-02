@@ -1,6 +1,7 @@
 import './SideBar.css';
 import React, { Component } from 'react';
-import Tree from '../Tree/Tree';
+import Tree from './Tree';
+import MenuBar from './MenuBar';
 
 class SideBar extends Component {
 
@@ -8,6 +9,7 @@ class SideBar extends Component {
     
     return (
       <div className="SideBar">
+        <MenuBar></MenuBar>
         <Tree {...this.props}></Tree>
       </div>
     );
