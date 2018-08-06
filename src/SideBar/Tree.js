@@ -14,7 +14,7 @@ class Tree extends Component{
         return(
             <div className="Tree">
                 <List component="div" disablePadding>
-                    <TreeNode data={store.get("indice")} padding={20} selectedNodeId={selectedNodeId} selectedDocIdOnChange={selectedDocIdOnChange} selectedNodeIdOnChange={selectedNodeIdOnChange}></TreeNode>
+                    <TreeNode data={store.get("indices")} padding={20} selectedNodeId={selectedNodeId} selectedDocIdOnChange={selectedDocIdOnChange} selectedNodeIdOnChange={selectedNodeIdOnChange}></TreeNode>
                 </List>
             </div>
         )

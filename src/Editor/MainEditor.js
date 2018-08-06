@@ -25,12 +25,17 @@ class MainEditor extends Component {
     const {store, selectedDocId} = props;
     const docs = store.get("docs");
     let editorState;
-    if(selectedDocId != ""){
+    if(selectedDocId in docs){
       const content = convertFromRaw(JSON.parse(docs[selectedDocId]));
       editorState = EditorState.createWithContent(content);
     }else{
       editorState = EditorState.createEmpty();
     }
+    // if(selectedDocId != ""){
+      
+    // }else{
+      
+    // }
     this.setState({
       editorState: editorState
     })
@@ -40,8 +45,17 @@ class MainEditor extends Component {
   onChange = (editorState) =>{
     console.log("===Editor Content Changed===");
     const {selectedDocId, selectedNodeId,selectedNodeIdOnChange} = this.props;
-    this.setState({editorState});
-    this.saveContent(editorState.getCurrentContent());
+    if(selectedDocId != ""){
+      this.setState({editorState});
+      this.saveContent(editorState.getCurrentContent());
+    }
+
+    
+    // This deals with situation when the node is on other folder, 
+    // edit the file will bring back the node to the current file
+    // 
+    // ToDo:
+    // Unfold the tree to the current file when bring back the node. 
     if(selectedDocId != selectedNodeId){
       selectedNodeIdOnChange(selectedDocId);
     }

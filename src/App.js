@@ -9,7 +9,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        indexOfSelected: 0,
         selectedDocId: "",
         selectedNodeId: ""
     }
@@ -25,12 +24,14 @@ class App extends Component {
   loadData(){
   }
  
+  //Selectd DocId is for the id of selected document in the mainEditor
   selectedDocIdOnChange = (id) =>{
     this.setState({
       selectedDocId:id
     })
   }
 
+  //Selected NodeId is the id of selected document in the tree
   selectedNodeIdOnChange = (id) =>{
     this.setState({
       selectedNodeId:id
