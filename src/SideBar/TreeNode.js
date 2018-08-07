@@ -10,6 +10,7 @@ import DraftsIcon from '@material-ui/icons/Drafts';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import Util from '../utility/util';
 
 
 
@@ -18,6 +19,7 @@ class TreeNode extends Component{
         super(props);
         this.state = { open: true };
     }
+    
     handleClick = () => {
         const {data, selectedDocIdOnChange, selectedNodeIdOnChange} = this.props;
         this.setState(state => ({ open: !state.open }));

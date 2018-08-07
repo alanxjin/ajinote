@@ -17,9 +17,22 @@ class MenuBar extends Component {
   //ToDo:
   //Find the right place to put this method
   addNewFile=()=>{
-    let {store, selectedNodeId} = this.props;
-    let indices = store.get('indices');
-    console.log(Util.findNote(indices, selectedNodeId));
+    let {indices, ids, saveData, selectedNodeId} = this.props;
+    let newIndices = Util.clone(indices);
+    let selectedNode = Util.findNode(newIndices, selectedNodeId);
+    if(selectedNode.type == "folder"){
+      let newIds = Util.clone(ids);
+      let newId = Util.generateId();
+      while(newId in ids){
+        newId = Util.generateId();
+      }
+      newIds.push(newId);
+      selectedNode.nodes.push(Util.createNewNode(newId,"Untitled","file"));
+      saveData("ids", newIds);
+      saveData("indices", newIndices);
+    }else{
+
+    }
   }
 
   render() {

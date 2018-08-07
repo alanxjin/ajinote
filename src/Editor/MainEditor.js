@@ -5,6 +5,7 @@ import Editor from 'draft-js-plugins-editor';
 import {EditorState ,convertToRaw,convertFromRaw} from 'draft-js';
 import createMarkdownPlugin from 'draft-js-markdown-plugin';
 import createMathjaxPlugin from 'draft-js-mathjax-plugin'
+import Util from '../utility/util';
 
 const plugins = [createMarkdownPlugin(),createMathjaxPlugin()];
 class MainEditor extends Component {
@@ -21,9 +22,8 @@ class MainEditor extends Component {
     this.updateEditorState(nextProps);
   }
 
-  updateEditorState = (props)=>{
-    const {store, selectedDocId} = props;
-    const docs = store.get("docs");
+  updateEditorState = (props) => {
+    const {docs, selectedDocId} = props;
     let editorState;
     if(selectedDocId in docs){
       const content = convertFromRaw(JSON.parse(docs[selectedDocId]));
@@ -63,10 +63,10 @@ class MainEditor extends Component {
 
   saveContent = (content) => {
     console.log("===Save Data===");
-    const {store, selectedDocId} = this.props;
-    let docs = store.get("docs");
-    docs[selectedDocId] = JSON.stringify(convertToRaw(content));
-    store.set("docs", docs);
+    const {docs, saveData, selectedDocId} = this.props;
+    let newDocs = Util.clone(docs);
+    newDocs[selectedDocId] = JSON.stringify(convertToRaw(content));
+    saveData("docs", newDocs);
   }
 
   render() {

@@ -14,14 +14,27 @@ class App extends Component {
     }
     this.store = new Store({
       name:'ajinStore',
-      defaults:{'config':{}, 'doc':{}, 'index':{}}
+      defaults:{'config':{}, 'ids':[], 'docs':{}, 'indices':{}}
     })
+    this.config = {};
+    this.ids = [];
+    this.indices = {};
+    this.docs = {};
   }
   componentWillMount(){
     this.loadData();
   }
 
-  loadData(){
+  loadData = () => {
+    this.config = this.store.get('config');
+    this.ids = this.store.get('ids');
+    this.indices = this.store.get('indices');
+    this.docs = this.store.get('docs');
+  }
+
+  saveData = (key, value) => {
+    this.store.set(key,value);
+    this.loadData();
   }
  
   //Selectd DocId is for the id of selected document in the mainEditor
@@ -43,8 +56,8 @@ class App extends Component {
     const {selectedDocId, selectedNodeId} = this.state;
     return (
       <div className="App">
-        <SideBar store={this.store} selectedNodeId={selectedNodeId} selectedDocIdOnChange={this.selectedDocIdOnChange} selectedNodeIdOnChange={this.selectedNodeIdOnChange}/>
-        <MainEditor store={this.store} selectedNodeId={selectedNodeId} selectedDocId={selectedDocId} selectedNodeIdOnChange={this.selectedNodeIdOnChange}/>
+        <SideBar ids={this.ids} indices={this.indices} saveData={this.saveData} selectedNodeId={selectedNodeId} selectedDocIdOnChange={this.selectedDocIdOnChange} selectedNodeIdOnChange={this.selectedNodeIdOnChange}/>
+        <MainEditor docs={this.docs} saveData={this.saveData} selectedNodeId={selectedNodeId} selectedDocId={selectedDocId} selectedNodeIdOnChange={this.selectedNodeIdOnChange}/>
       </div>
     );
   }

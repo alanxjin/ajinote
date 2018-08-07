@@ -22,7 +22,7 @@ class Store {
   
   set(key, val) {
     this.data[key] = val;
-    fs.writeFileSync(this.path, JSON.stringify(this.data));
+    fs.writeFileSync(this.path, JSON.stringify(this.data));  
   }
 }
 
