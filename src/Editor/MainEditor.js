@@ -8,6 +8,7 @@ import createMathjaxPlugin from 'draft-js-mathjax-plugin'
 import Util from '../utility/util';
 
 const plugins = [createMarkdownPlugin(),createMathjaxPlugin()];
+
 class MainEditor extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +20,24 @@ class MainEditor extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-    this.updateEditorState(nextProps);
+    const nextId = nextProps.selectedDocId;
+    const thisId = this.props.selectedDocId;
+    if(nextId != thisId){
+      this.saveContent();
+      this.updateEditorState(nextProps);
+    }
+  }
+
+  componentDidMount() {
+    window.addEventListener("beforeunload", this.onUnload)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("beforeunload", this.onUnload)
+  }
+
+  onUnload = ()=>{
+    this.saveContent();
   }
 
   updateEditorState = (props) => {
@@ -47,7 +65,7 @@ class MainEditor extends Component {
     const {selectedDocId, selectedNodeId,selectedNodeIdOnChange} = this.props;
     if(selectedDocId != ""){
       this.setState({editorState});
-      this.saveContent(editorState.getCurrentContent());
+      //this.saveContent(editorState.getCurrentContent());
     }
 
     
@@ -61,9 +79,11 @@ class MainEditor extends Component {
     }
   }
 
-  saveContent = (content) => {
+  saveContent = () => {
     console.log("===Save Data===");
     const {docs, saveData, selectedDocId} = this.props;
+    const {editorState} = this.state;
+    let content = editorState.getCurrentContent();
     let newDocs = Util.clone(docs);
     newDocs[selectedDocId] = JSON.stringify(convertToRaw(content));
     saveData("docs", newDocs);

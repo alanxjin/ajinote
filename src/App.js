@@ -3,33 +3,36 @@ import React, { Component } from 'react';
 import MainEditor from './Editor/MainEditor';
 import SideBar from './SideBar/SideBar';
 import Store from './utility/Store';
+import Util from './utility/util';
 
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-        selectedDocId: "",
-        selectedNodeId: ""
-    }
     this.store = new Store({
       name:'ajinStore',
-      defaults:{'config':{}, 'ids':[], 'docs':{}, 'indices':{}}
+      defaults:{'config':{}, 'ids':[10000], 'docs':{}, 'indices':Util.createNewNode(10000,"Ajinote","folder")}
     })
-    this.config = {};
-    this.ids = [];
-    this.indices = {};
-    this.docs = {};
+    this.state = {
+        selectedDocId: "",
+        selectedNodeId: "",
+        config:{},
+        ids: [],
+        indices: {},
+        docs:{},
+    }
   }
   componentWillMount(){
     this.loadData();
   }
 
   loadData = () => {
-    this.config = this.store.get('config');
-    this.ids = this.store.get('ids');
-    this.indices = this.store.get('indices');
-    this.docs = this.store.get('docs');
+    this.setState({
+      config:this.store.get('config'),
+      ids:this.store.get('ids'),
+      indices:this.store.get('indices'),
+      docs:this.store.get('docs')
+    })
   }
 
   saveData = (key, value) => {
@@ -53,11 +56,11 @@ class App extends Component {
   
   render() {
     console.log("===App rendering===");
-    const {selectedDocId, selectedNodeId} = this.state;
+    const {ids, indices, docs, selectedDocId, selectedNodeId} = this.state;
     return (
       <div className="App">
-        <SideBar ids={this.ids} indices={this.indices} saveData={this.saveData} selectedNodeId={selectedNodeId} selectedDocIdOnChange={this.selectedDocIdOnChange} selectedNodeIdOnChange={this.selectedNodeIdOnChange}/>
-        <MainEditor docs={this.docs} saveData={this.saveData} selectedNodeId={selectedNodeId} selectedDocId={selectedDocId} selectedNodeIdOnChange={this.selectedNodeIdOnChange}/>
+        <SideBar ids={ids} indices={indices} saveData={this.saveData} selectedNodeId={selectedNodeId} selectedDocIdOnChange={this.selectedDocIdOnChange} selectedNodeIdOnChange={this.selectedNodeIdOnChange}/>
+        <MainEditor docs={docs} saveData={this.saveData} selectedNodeId={selectedNodeId} selectedDocId={selectedDocId} selectedNodeIdOnChange={this.selectedNodeIdOnChange}/>
       </div>
     );
   }
