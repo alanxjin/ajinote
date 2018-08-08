@@ -2,7 +2,7 @@
 
 class Util{
     static findNode(tree, nodeId){
-        if(tree.id == nodeId){
+        if(tree.id === nodeId){
             return tree;
         }else{
             for(let ind in tree.nodes){
@@ -17,7 +17,7 @@ class Util{
 
     static findParent(tree, nodeId){
         for(let ind in tree.nodes){
-            if(tree.nodes[ind].id == nodeId){
+            if(tree.nodes[ind].id === nodeId){
                 return tree;
             }else{
                 let ret = Util.findParent(tree.nodes[ind],nodeId)

@@ -1,6 +1,10 @@
 .MainEditor{
-  background-color: azure;
-  padding:10px;
+  background-color: gainsboro;
+  color:grey;
+  padding:20px;
   height: 600px;
   flex:4;
+}
+.Editor{
+  height: 600px;
 }

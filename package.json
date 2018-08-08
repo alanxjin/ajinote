@@ -1,16 +1,18 @@
 {
   "name": "ajinote",
+  "productName": "Ajinote",
   "version": "0.1.0",
   "private": true,
+  "author": "Alan Jin",
   "main": "public/main.js",
   "homepage": "./",
   "dependencies": {
-    "@material-ui/core": "^1.4.2",
-    "@material-ui/icons": "^2.0.0",
+    "@material-ui/core": "^1.4.3",
+    "@material-ui/icons": "^2.0.1",
     "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.6",
     "draft-js": "^0.10.5",
-    "draft-js-markdown-plugin": "^3.0.0",
+    "draft-js-markdown-plugin": "^3.0.1",
     "draft-js-mathjax-plugin": "^1.3.4",
     "draft-js-plugins-editor": "^2.1.1",
     "electron-is-dev": "^0.3.0",
@@ -35,11 +37,12 @@
   "devDependencies": {
     "concurrently": "^3.6.1",
     "electron": "^2.0.6",
-    "electron-builder": "^20.26.1",
+    "electron-builder": "^20.27.1",
     "wait-on": "^2.1.0"
   },
   "build": {
-    "appId": "com.ajinote",
+    "productName": "Ajinote",
+    "appId": "org.ajinote",
     "files": [
       "build/**/*",
       "node_modules/**/*"

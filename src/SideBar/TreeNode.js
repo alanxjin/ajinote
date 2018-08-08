@@ -10,7 +10,6 @@ import DraftsIcon from '@material-ui/icons/Drafts';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import Util from '../utility/util';
 
 
 
@@ -23,7 +22,7 @@ class TreeNode extends Component{
     handleClick = () => {
         const {data, selectedDocIdOnChange, selectedNodeIdOnChange} = this.props;
         this.setState(state => ({ open: !state.open }));
-        if(data.type == "file") selectedDocIdOnChange(data.id);
+        if(data.type === "file") selectedDocIdOnChange(data.id);
         selectedNodeIdOnChange(data.id);
     };
     render(){
@@ -31,7 +30,7 @@ class TreeNode extends Component{
         let {padding} = this.props;
         let childNodes = [];
         let hasChild = data.nodes != null && data.nodes.length > 0;
-        let isSelected = selectedNodeId == data.id;
+        let isSelected = selectedNodeId === data.id;
         let style = {paddingLeft:`${padding}px`};
         if(isSelected){
             style["backgroundColor"] = "gray";

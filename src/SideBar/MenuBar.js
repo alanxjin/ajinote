@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import NoteAddOutlinedIcon from '@material-ui/icons/NoteAddOutlined';
 import CreateNewFolderOutlinedIcon from '@material-ui/icons/CreateNewFolderOutlined';
-import RefreshIcon from '@material-ui/icons/Refresh'
+import EditIcon from '@material-ui/icons/Edit'
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button'
-import Input from '@material-ui/core/Input';
+import TextField from '@material-ui/core/TextField';
 import Util from '../utility/util';
 
 class MenuBar extends Component {
@@ -18,19 +18,19 @@ class MenuBar extends Component {
     }
   }
   addFileButtonOnClick = ()=>{
-    this.setState({inputShown:true, action:"addFile"});
+    this.setState({inputShown:true, action:{type: "addFile", name: "New File"}});
   }
 
   addFolderButtonOnClick = ()=>{
-    this.setState({inputShown:true, action:"addFolder"});
+    this.setState({inputShown:true, action:{type: "addFolder", name: "New Folder"}});
   }
 
   renameButtonOnClick = ()=>{
-    this.setState({inputShown:true, action:"rename"});
+    this.setState({inputShown:true, action:{type: "rename", name: "Rename"}});
   }
 
   deleteButtonOnClick = ()=>{
-    this.setState({inputShown:true, action:"delete"});
+    this.setState({inputShown:true, action:{type: "delete", name: "Delete the item?"}});
     
   }
 
@@ -40,13 +40,13 @@ class MenuBar extends Component {
 
   onButtonConfirm = () =>{
     const {action, inputValue} = this.state;
-    if(action === "addFile"){
+    if(action.type === "addFile"){
       this.addNew("file",inputValue);
-    }else if(action === "addFolder"){
+    }else if(action.type === "addFolder"){
       this.addNew("folder",inputValue);
-    }else if(action ==="rename"){
+    }else if(action.type ==="rename"){
       this.rename();
-    }else if(action === "delete"){
+    }else if(action.type === "delete"){
       this.delete();
     }
     this.resetInput();
@@ -84,7 +84,7 @@ class MenuBar extends Component {
     let newIndices = Util.clone(indices);
     let selectedNode = Util.findNode(newIndices, selectedNodeId);
     if(selectedNode != null){
-      if(selectedNode.type == "folder"){
+      if(selectedNode.type === "folder"){
         let newIds = Util.clone(ids);
         let newId = Util.generateId();
 
@@ -131,16 +131,16 @@ class MenuBar extends Component {
   }
 
   render() {
-    const {inputShown, inputValue} = this.state;
+    const {inputShown, inputValue, action} = this.state;
     return (
       <div className="MenuBar">
         <IconButton style={{margin:"5px"}} onClick={this.addFileButtonOnClick}><NoteAddOutlinedIcon></NoteAddOutlinedIcon></IconButton>
         <IconButton style={{margin:"5px"}} onClick={this.addFolderButtonOnClick}><CreateNewFolderOutlinedIcon></CreateNewFolderOutlinedIcon></IconButton>
-        <IconButton style={{margin:"5px"}} onClick={this.renameButtonOnClick}><RefreshIcon></RefreshIcon></IconButton>
+        <IconButton style={{margin:"5px"}} onClick={this.renameButtonOnClick}><EditIcon></EditIcon></IconButton>
         <IconButton style={{margin:"5px"}} onClick={this.deleteButtonOnClick}><DeleteOutlinedIcon></DeleteOutlinedIcon></IconButton>
         {inputShown?
           <div>
-            <Input style={{marginLeft:"35px", marginBottom:"10px"}} value={inputValue} onChange={this.onInputChange}></Input>
+            <TextField disabled={action.type === "delete"}style={{marginLeft:"35px", marginBottom:"10px"}} label={action.name} value={inputValue} onChange={this.onInputChange}></TextField>
             <div style={{marginLeft:"35px"}}>
               <Button onClick={this.onButtonConfirm} color="primary">OK</Button>
               <Button onClick={this.onButtonCancel} color="secondary">Cancel</Button>
