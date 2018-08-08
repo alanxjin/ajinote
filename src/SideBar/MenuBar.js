@@ -3,79 +3,106 @@ import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import NoteAddOutlinedIcon from '@material-ui/icons/NoteAddOutlined';
 import CreateNewFolderOutlinedIcon from '@material-ui/icons/CreateNewFolderOutlined';
 import RefreshIcon from '@material-ui/icons/Refresh'
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button'
+import Input from '@material-ui/core/Input';
 import Util from '../utility/util';
 
 class MenuBar extends Component {
-  
+  constructor(props){
+    super(props);
+    this.state={
+      inputShown: false,
+      inputValue:"",
+      action:"",
+    }
+  }
   addFileButtonOnClick = ()=>{
-    this.addNewFile();
+    this.setState({inputShown:true, action:"addFile"});
   }
 
   addFolderButtonOnClick = ()=>{
-    this.addNewFolder();
+    this.setState({inputShown:true, action:"addFolder"});
+  }
+
+  renameButtonOnClick = ()=>{
+    this.setState({inputShown:true, action:"rename"});
   }
 
   deleteButtonOnClick = ()=>{
-    this.delete();
+    this.setState({inputShown:true, action:"delete"});
+    
   }
 
+  onInputChange = (event) =>{
+    this.setState({inputValue: event.target.value});
+  }
 
-  //ToDo:
-  //* Find the right place to put this method
-  //* Add pop up to alert the user
-  addNewFile = () => {
-    let {indices, ids, saveData, selectedNodeId, selectedNodeIdOnChange, selectedDocIdOnChange} = this.props;
+  onButtonConfirm = () =>{
+    const {action, inputValue} = this.state;
+    if(action === "addFile"){
+      this.addNew("file",inputValue);
+    }else if(action === "addFolder"){
+      this.addNew("folder",inputValue);
+    }else if(action ==="rename"){
+      this.rename();
+    }else if(action === "delete"){
+      this.delete();
+    }
+    this.resetInput();
+  }
+
+  onButtonCancel = () => {
+    this.resetInput();
+  }
+
+  resetInput = () => {
+    this.setState({
+      action:"",
+      inputValue:"",
+      inputShown:false
+    })
+
+  }
+
+  rename = () => {
+    let {indices, saveData, selectedNodeId} = this.props;
+    const {inputValue} = this.state;
     let newIndices = Util.clone(indices);
     let selectedNode = Util.findNode(newIndices, selectedNodeId);
-    if(selectedNode.type == "folder"){
-      let newIds = Util.clone(ids);
-      let newId = Util.generateId();
-
-      while(newId in ids){
-        newId = Util.generateId();
-      }
-
-      newIds.push(newId);
-      selectedNode.nodes.push(Util.createNewNode(newId,"Untitled","file"));
-
-      saveData("ids", newIds);
+    if(selectedNode != null){
+      selectedNode.name = inputValue;
       saveData("indices", newIndices);
-      selectedNodeIdOnChange(newId);
-      selectedDocIdOnChange(newId)
-
-    }else{
-
     }
   }
 
-
   //ToDo:
   //* Find the right place to put this method
   //* Add pop up to alert the user
-  addNewFolder = () => {
+  addNew = (type, name) => {
     let {indices, ids, saveData, selectedNodeId, selectedNodeIdOnChange, selectedDocIdOnChange} = this.props;
     let newIndices = Util.clone(indices);
     let selectedNode = Util.findNode(newIndices, selectedNodeId);
-    if(selectedNode.type == "folder"){
-      let newIds = Util.clone(ids);
-      let newId = Util.generateId();
+    if(selectedNode != null){
+      if(selectedNode.type == "folder"){
+        let newIds = Util.clone(ids);
+        let newId = Util.generateId();
 
-      while(newId in ids){
-        newId = Util.generateId();
+        while(newId in ids){
+          newId = Util.generateId();
+        }
+
+        newIds.push(newId);
+        selectedNode.nodes.push(Util.createNewNode(newId,name,type));
+
+        saveData("ids", newIds);
+        saveData("indices", newIndices);
+        selectedNodeIdOnChange(newId);
+        selectedDocIdOnChange(newId)
+
+      }else{
+
       }
-
-      newIds.push(newId);
-      selectedNode.nodes.push(Util.createNewNode(newId,"Untitled","folder"));
-
-      saveData("ids", newIds);
-      saveData("indices", newIndices);
-      selectedNodeIdOnChange(newId);
-      selectedDocIdOnChange(newId)
-
-    }else{
-
     }
   }
 
@@ -104,12 +131,22 @@ class MenuBar extends Component {
   }
 
   render() {
+    const {inputShown, inputValue} = this.state;
     return (
-      <div className="MenuBar" style={{margin:"5px"}}>
-        <IconButton onClick={this.addFileButtonOnClick}><NoteAddOutlinedIcon></NoteAddOutlinedIcon></IconButton>
-        <IconButton onClick={this.addFolderButtonOnClick}><CreateNewFolderOutlinedIcon></CreateNewFolderOutlinedIcon></IconButton>
-        <IconButton onClick={this.deleteButtonOnClick}><DeleteOutlinedIcon></DeleteOutlinedIcon></IconButton>
-        <IconButton><RefreshIcon></RefreshIcon></IconButton>
+      <div className="MenuBar">
+        <IconButton style={{margin:"5px"}} onClick={this.addFileButtonOnClick}><NoteAddOutlinedIcon></NoteAddOutlinedIcon></IconButton>
+        <IconButton style={{margin:"5px"}} onClick={this.addFolderButtonOnClick}><CreateNewFolderOutlinedIcon></CreateNewFolderOutlinedIcon></IconButton>
+        <IconButton style={{margin:"5px"}} onClick={this.renameButtonOnClick}><RefreshIcon></RefreshIcon></IconButton>
+        <IconButton style={{margin:"5px"}} onClick={this.deleteButtonOnClick}><DeleteOutlinedIcon></DeleteOutlinedIcon></IconButton>
+        {inputShown?
+          <div>
+            <Input style={{marginLeft:"35px", marginBottom:"10px"}} value={inputValue} onChange={this.onInputChange}></Input>
+            <div style={{marginLeft:"35px"}}>
+              <Button onClick={this.onButtonConfirm} color="primary">OK</Button>
+              <Button onClick={this.onButtonCancel} color="secondary">Cancel</Button>
+            </div>
+          </div>
+        : ""}
       </div>
     );
   }
