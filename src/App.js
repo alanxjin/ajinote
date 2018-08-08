@@ -11,7 +11,7 @@ class App extends Component {
     super(props);
     this.store = new Store({
       name:'ajinStore',
-      defaults:{'config':{}, 'ids':[10000], 'docs':{}, 'indices':Util.createNewNode(10000,"Ajinote","folder")}
+      defaults:{'config':{}, 'ids':['10000'], 'docs':{}, 'indices':Util.createNewNode('10000','Ajinote','folder')}
     })
     this.state = {
         selectedDocId: "",

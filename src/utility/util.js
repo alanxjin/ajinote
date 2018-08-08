@@ -15,6 +15,20 @@ class Util{
         }
     }
 
+    static findParent(tree, nodeId){
+        for(let ind in tree.nodes){
+            if(tree.nodes[ind].id == nodeId){
+                return tree;
+            }else{
+                let ret = Util.findParent(tree.nodes[ind],nodeId)
+                if( ret != null){
+                    return ret;
+                }
+            }
+        }
+        return null;
+    }
+
     static createNewNode(id, name, type){
         return {"name":name,"type":type,"id":id,"nodes":[]};
     }

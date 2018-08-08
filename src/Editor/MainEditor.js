@@ -65,7 +65,6 @@ class MainEditor extends Component {
     const {selectedDocId, selectedNodeId,selectedNodeIdOnChange} = this.props;
     if(selectedDocId != ""){
       this.setState({editorState});
-      //this.saveContent(editorState.getCurrentContent());
     }
 
     
