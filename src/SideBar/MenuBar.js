@@ -13,6 +13,10 @@ class MenuBar extends Component {
     this.addNewFile();
   }
 
+  addFolderButtonOnClick = ()=>{
+    this.addNewFolder();
+  }
+
   deleteButtonOnClick = ()=>{
     this.delete();
   }
@@ -21,7 +25,7 @@ class MenuBar extends Component {
   //ToDo:
   //* Find the right place to put this method
   //* Add pop up to alert the user
-  addNewFile=()=>{
+  addNewFile = () => {
     let {indices, ids, saveData, selectedNodeId, selectedNodeIdOnChange, selectedDocIdOnChange} = this.props;
     let newIndices = Util.clone(indices);
     let selectedNode = Util.findNode(newIndices, selectedNodeId);
@@ -35,6 +39,35 @@ class MenuBar extends Component {
 
       newIds.push(newId);
       selectedNode.nodes.push(Util.createNewNode(newId,"Untitled","file"));
+
+      saveData("ids", newIds);
+      saveData("indices", newIndices);
+      selectedNodeIdOnChange(newId);
+      selectedDocIdOnChange(newId)
+
+    }else{
+
+    }
+  }
+
+
+  //ToDo:
+  //* Find the right place to put this method
+  //* Add pop up to alert the user
+  addNewFolder = () => {
+    let {indices, ids, saveData, selectedNodeId, selectedNodeIdOnChange, selectedDocIdOnChange} = this.props;
+    let newIndices = Util.clone(indices);
+    let selectedNode = Util.findNode(newIndices, selectedNodeId);
+    if(selectedNode.type == "folder"){
+      let newIds = Util.clone(ids);
+      let newId = Util.generateId();
+
+      while(newId in ids){
+        newId = Util.generateId();
+      }
+
+      newIds.push(newId);
+      selectedNode.nodes.push(Util.createNewNode(newId,"Untitled","folder"));
 
       saveData("ids", newIds);
       saveData("indices", newIndices);
@@ -74,7 +107,7 @@ class MenuBar extends Component {
     return (
       <div className="MenuBar" style={{margin:"5px"}}>
         <IconButton onClick={this.addFileButtonOnClick}><NoteAddOutlinedIcon></NoteAddOutlinedIcon></IconButton>
-        <IconButton ><CreateNewFolderOutlinedIcon></CreateNewFolderOutlinedIcon></IconButton>
+        <IconButton onClick={this.addFolderButtonOnClick}><CreateNewFolderOutlinedIcon></CreateNewFolderOutlinedIcon></IconButton>
         <IconButton onClick={this.deleteButtonOnClick}><DeleteOutlinedIcon></DeleteOutlinedIcon></IconButton>
         <IconButton><RefreshIcon></RefreshIcon></IconButton>
       </div>

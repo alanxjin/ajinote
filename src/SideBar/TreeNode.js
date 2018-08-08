@@ -60,7 +60,7 @@ class TreeNode extends Component{
         return (
             <ListItem button onClick={this.handleClick} style={style}>
                 <ListItemIcon>
-                    <InboxIcon />
+                    {data.type === "file"? <InboxIcon />: <DraftsIcon />} 
                 </ListItemIcon>
                 <ListItemText primary={data.name} />
             </ListItem> 
