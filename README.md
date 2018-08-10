@@ -1,6 +1,6 @@
-##This is a notetaking app built with Electron and React
+## A notetaking app built with Electron and React
 
-###Features:
+### Features:
 
 * Markdown
 * MathJax
