@@ -48,10 +48,7 @@
     ],
     "mac":{
       "category":"public.app-category.productivity",
-      "icon": "build/icon.icns"
-    },
-    "directories": {
-      "buildResources": "assets"
+      "icon": "assets/icons/icon.icns"
     }
   }
 }
