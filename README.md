@@ -1,4 +1,6 @@
-## A notetaking app built with Electron and React
+## Ajinote
+#### A notetaking app built with Electron and React
+
 
 ### Features:
 
