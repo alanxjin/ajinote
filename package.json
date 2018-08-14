@@ -1,7 +1,7 @@
 {
   "name": "ajinote",
   "productName": "Ajinote",
-  "description":"A simple note taking app.",
+  "description": "A simple note taking app.",
   "version": "0.1.0",
   "private": true,
   "author": "Alan Jin",
@@ -22,6 +22,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
+    "react-redux": "^5.0.7",
     "react-scripts": "1.1.4"
   },
   "scripts": {
@@ -46,8 +47,8 @@
       "build/**/*",
       "node_modules/**/*"
     ],
-    "mac":{
-      "category":"public.app-category.productivity",
+    "mac": {
+      "category": "public.app-category.productivity",
       "icon": "assets/icons/icon.icns"
     }
   }
