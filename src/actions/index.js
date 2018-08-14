@@ -23,6 +23,12 @@ export const deleteItem = id =>({
     id
 })
 
+export const renameItem = (id, name) =>({
+    type: 'RENAME_ITEM',
+    id,
+    name
+})
+
 export const toggleFolder = id => ({
     type: 'TOGGLE_FOLDER',
     id
