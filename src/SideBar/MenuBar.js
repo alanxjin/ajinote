@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import NoteAddOutlinedIcon from '@material-ui/icons/NoteAddOutlined';
 import CreateNewFolderOutlinedIcon from '@material-ui/icons/CreateNewFolderOutlined';
@@ -7,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField';
 import Util from '../utility/util';
+import { addItem,deleteItem,renameItem } from '../actions/index';
 
 class MenuBar extends Component {
   constructor(props){
@@ -40,14 +42,16 @@ class MenuBar extends Component {
 
   onButtonConfirm = () =>{
     const {action, inputValue} = this.state;
+    const {addItemInTree, deleteInTree,renameInTree, selectedNodeId} = this.props;
+    let id = selectedNodeId;
     if(action.type === "addFile"){
-      this.addNew("file",inputValue);
+      addItemInTree(id, inputValue, "file");
     }else if(action.type === "addFolder"){
-      this.addNew("folder",inputValue);
+      addItemInTree(id, inputValue, "folder");
     }else if(action.type ==="rename"){
-      this.rename();
+      renameInTree(id,inputValue);
     }else if(action.type === "delete"){
-      this.delete();
+      deleteInTree(id);
     }
     this.resetInput();
   }
@@ -63,71 +67,6 @@ class MenuBar extends Component {
       inputShown:false
     })
 
-  }
-
-  rename = () => {
-    let {indices, saveData, selectedNodeId} = this.props;
-    const {inputValue} = this.state;
-    let newIndices = Util.clone(indices);
-    let selectedNode = Util.findNode(newIndices, selectedNodeId);
-    if(selectedNode != null){
-      selectedNode.name = inputValue;
-      saveData("indices", newIndices);
-    }
-  }
-
-  //ToDo:
-  //* Find the right place to put this method
-  //* Add pop up to alert the user
-  addNew = (type, name) => {
-    let {indices, ids, saveData, selectedNodeId, selectedNodeIdOnChange, selectedDocIdOnChange} = this.props;
-    let newIndices = Util.clone(indices);
-    let selectedNode = Util.findNode(newIndices, selectedNodeId);
-    if(selectedNode != null){
-      if(selectedNode.type === "folder"){
-        let newIds = Util.clone(ids);
-        let newId = Util.generateId();
-
-        while(newId in ids){
-          newId = Util.generateId();
-        }
-
-        newIds.push(newId);
-        selectedNode.nodes.push(Util.createNewNode(newId,name,type));
-
-        saveData("ids", newIds);
-        saveData("indices", newIndices);
-        selectedNodeIdOnChange(newId);
-        selectedDocIdOnChange(newId)
-
-      }else{
-
-      }
-    }
-  }
-
-  //ToDo:
-  //* Find the right place to put this method
-  //* Add pop up to alert the user
-  delete = () =>{
-    let {indices, ids, saveData, selectedNodeId, selectedDocIdOnChange, selectedNodeIdOnChange} = this.props;
-    let newIndices = Util.clone(indices);
-    let newIds = Util.clone(ids);
-    let parentNode = Util.findParent(newIndices, selectedNodeId);
-
-    if(parentNode != null){
-      let childNodeIndex = parentNode.nodes.findIndex((obj) => obj.id === selectedNodeId);
-      let idIndex = newIds.indexOf(selectedNodeId);
-
-      parentNode.nodes.splice(childNodeIndex,1);
-      newIds.splice(idIndex, 1);
-
-      saveData("ids", newIds);
-      saveData("indices", newIndices);
-
-      selectedNodeIdOnChange("");
-      selectedDocIdOnChange("");
-    }
   }
 
   render() {
@@ -152,4 +91,16 @@ class MenuBar extends Component {
   }
 }
 
-export default MenuBar
+
+const mapStateToProps = state => ({
+  'selectedNodeId': state.selectedNodeId
+})
+
+const mapDispatchToProps = dispatch  => ({
+  addItemInTree: (parentId, name, type) => dispatch(addItem(parentId, name, type)),
+  renameInTree: (id, name) => dispatch(renameItem(id, name)),
+  deleteInTree: (id) => dispatch(deleteItem(id))
+})
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(MenuBar)

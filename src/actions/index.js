@@ -6,17 +6,26 @@ let testId = 0
 //    Util.generateId
 //}
 
-export const addFile = name => ({
-    type: 'ADD_FILE',
-    id: testId++,
-    name
+export const addItem = (parentId, name, type) => ({
+    type: 'ADD_ITEM',
+    parentId,
+    name,
+    type
 })
 
-export const addFolder = name =>({
-    type: 'ADD_FOLDER',
-    id: testId++,
-    name
-})
+// export const addFile = (parentId, name) => ({
+//     type: 'ADD_FILE',
+//     id: testId++,
+//     parentId,
+//     name
+// })
+
+// export const addFolder = (parentId, name) =>({
+//     type: 'ADD_FOLDER',
+//     id: testId++,
+//     parentId,
+//     name
+// })
 
 export const deleteItem = id =>({
     type: 'DELETE_ITEM',
