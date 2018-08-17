@@ -16,11 +16,11 @@ import MenuBar from './MenuBar';
 //   }
 // }
 
-const SideBar = () => {
+const SideBar = () => (
     <div className="SideBar">
       <MenuBar></MenuBar>
       <Tree></Tree>
     </div>
-}
+)
 
 export default SideBar;

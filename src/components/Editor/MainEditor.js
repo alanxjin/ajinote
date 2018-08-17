@@ -1,11 +1,13 @@
 import './MainEditor.css';
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import Editor from 'draft-js-plugins-editor';
 import {EditorState ,convertToRaw,convertFromRaw, SelectionState} from 'draft-js';
 import createMarkdownPlugin from 'draft-js-markdown-plugin';
 import createMathjaxPlugin from 'draft-js-mathjax-plugin';
-import Util from '../utility/util';
+import {setSelectedNodeId, setDoc} from '../../actions';
+import Util from '../../utility/util';
 
 const plugins = [createMarkdownPlugin(),createMathjaxPlugin(),];
 
@@ -50,11 +52,7 @@ class MainEditor extends Component {
       editorState = EditorState.createEmpty();
     }
     editorState = this.setSelectionToBeginning(editorState);
-    // if(selectedDocId != ""){
-      
-    // }else{
-      
-    // }
+    
     this.setState({
       editorState: editorState
     })
@@ -81,19 +79,14 @@ class MainEditor extends Component {
 
   saveContent = () => {
     console.log("===Save Data===");
-    const {docs, saveData, selectedDocId} = this.props;
+    const {setDoc, selectedDocId} = this.props;
     if(selectedDocId !== ""){
       const {editorState} = this.state;
       let content = editorState.getCurrentContent();
-      let newDocs = Util.clone(docs);
-      newDocs[selectedDocId] = JSON.stringify(convertToRaw(content));
-      saveData("docs", newDocs);
+      setDoc(selectedDocId, content);
     }
   }
  
-  //Reference from 
-  //https://github.com/draft-js-plugins/draft-js-plugins/blob/master/draft-js-plugins-editor/src/Editor/moveSelectionToEnd.js
-  
   setSelectionToBeginning = (editorState) => {
     const content = editorState.getCurrentContent();
     const blockMap = content.getBlockMap();
@@ -128,4 +121,16 @@ MainEditor.propTypes = {
   editorState: PropTypes.object,
 };
 
-export default MainEditor;
+
+const mapStateToProps = state => ({
+  'selectedNodeId': state.selectedNodeId,
+  'selectedDocId':state.selectedDocId,
+  'docs':state.docs
+})
+
+const mapDispatchToProps = dispatch  => ({
+  selectedNodeIdOnChange: (id) => dispatch(setSelectedNodeId(id)),
+  setDoc: (id, content) => dispatch(setDoc(id, content))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainEditor);

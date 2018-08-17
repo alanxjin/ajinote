@@ -7,8 +7,7 @@ import EditIcon from '@material-ui/icons/Edit'
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField';
-import Util from '../utility/util';
-import { addItem,deleteItem,renameItem } from '../actions/index';
+import { addFile, addFolder, deleteItem,renameItem } from '../../actions';
 
 class MenuBar extends Component {
   constructor(props){
@@ -42,12 +41,12 @@ class MenuBar extends Component {
 
   onButtonConfirm = () =>{
     const {action, inputValue} = this.state;
-    const {addItemInTree, deleteInTree,renameInTree, selectedNodeId} = this.props;
+    const {addFileInTree, addFolderInTree, deleteInTree,renameInTree, selectedNodeId} = this.props;
     let id = selectedNodeId;
     if(action.type === "addFile"){
-      addItemInTree(id, inputValue, "file");
+      addFileInTree(id, inputValue);
     }else if(action.type === "addFolder"){
-      addItemInTree(id, inputValue, "folder");
+      addFolderInTree(id, inputValue);
     }else if(action.type ==="rename"){
       renameInTree(id,inputValue);
     }else if(action.type === "delete"){
@@ -97,7 +96,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch  => ({
-  addItemInTree: (parentId, name, type) => dispatch(addItem(parentId, name, type)),
+  addFileInTree: (parentId, name) => dispatch(addFile(parentId, name)),
+  addFolderInTree: (parentId, name) => dispatch(addFolder(parentId, name)),
   renameInTree: (id, name) => dispatch(renameItem(id, name)),
   deleteInTree: (id) => dispatch(deleteItem(id))
 })

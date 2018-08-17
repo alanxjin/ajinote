@@ -16,17 +16,17 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 class TreeNode extends Component{
     constructor(props) {
         super(props);
-        this.state = { open: true };
     }
     
     handleClick = () => {
-        const {data, selectedDocIdOnChange, selectedNodeIdOnChange} = this.props;
-        this.setState(state => ({ open: !state.open }));
-        if(data.type === "file") selectedDocIdOnChange(data.id);
+        const {data, selectedDocIdOnChange, selectedNodeIdOnChange, toggleFolder} = this.props;
+        if(data.type === 'folder') toggleFolder(data.id);
+        if(data.type === 'file') selectedDocIdOnChange(data.id);
         selectedNodeIdOnChange(data.id);
     };
+
     render(){
-        const {data,selectedDocIdOnChange,selectedNodeIdOnChange, selectedNodeId} = this.props;
+        const {data,selectedDocIdOnChange,selectedNodeIdOnChange, selectedNodeId, toggleFolder} = this.props;
         let {padding} = this.props;
         let childNodes = [];
         let hasChild = data.nodes != null && data.nodes.length > 0;
@@ -36,7 +36,7 @@ class TreeNode extends Component{
             style["backgroundColor"] = "gray";
         }
         for(let i in data.nodes){
-            childNodes.push(<TreeNode key={data.nodes[i].id} data={data.nodes[i]} selectedNodeId={selectedNodeId} padding={padding+20} selectedDocIdOnChange={selectedDocIdOnChange} selectedNodeIdOnChange={selectedNodeIdOnChange}></TreeNode>);
+            childNodes.push(<TreeNode key={data.nodes[i].id} data={data.nodes[i]} selectedNodeId={selectedNodeId} padding={padding+20} selectedDocIdOnChange={selectedDocIdOnChange} selectedNodeIdOnChange={selectedNodeIdOnChange} toggleFolder={toggleFolder}></TreeNode>);
         }
         if(hasChild){
             return(
@@ -46,9 +46,9 @@ class TreeNode extends Component{
                                 <DraftsIcon />
                             </ListItemIcon>
                             <ListItemText primary={data.name} />
-                            {this.state.open ? <ExpandLess /> : <ExpandMore />}
+                            {data.foldOpen ? <ExpandLess /> : <ExpandMore />}
                     </ListItem>
-                    <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+                    <Collapse in={data.foldOpen} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
                             {childNodes}
                         </List>

@@ -1,31 +1,15 @@
-import Util from '../utility/util';
 
-let testId = 0
-
-//generateUniqueId = () => {
-//    Util.generateId
-//}
-
-export const addItem = (parentId, name, type) => ({
-    type: 'ADD_ITEM',
+export const addFile = (parentId, name) => ({
+    type: 'ADD_FILE',
     parentId,
     name,
-    type
 })
 
-// export const addFile = (parentId, name) => ({
-//     type: 'ADD_FILE',
-//     id: testId++,
-//     parentId,
-//     name
-// })
-
-// export const addFolder = (parentId, name) =>({
-//     type: 'ADD_FOLDER',
-//     id: testId++,
-//     parentId,
-//     name
-// })
+export const addFolder = (parentId, name) => ({
+    type: 'ADD_FOLDER',
+    parentId,
+    name,
+})
 
 export const deleteItem = id =>({
     type: 'DELETE_ITEM',
@@ -41,4 +25,20 @@ export const renameItem = (id, name) =>({
 export const toggleFolder = id => ({
     type: 'TOGGLE_FOLDER',
     id
+})
+
+export const setSelectedNodeId = id => ({
+    type: 'SET_SELECTED_NODE_ID',
+    id
+})
+
+export const setSelectedDocId = id => ({
+    type: 'SET_SELECTED_DOC_ID',
+    id
+})
+
+export const setDoc = (id, content) => ({
+    type: 'SET_DOC',
+    id,
+    content
 })
